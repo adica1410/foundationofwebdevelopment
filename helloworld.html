@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CloSuit</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Your custom CSS can go here */
         * {
             margin: 0;
             padding: 0;
@@ -86,7 +86,6 @@
             text-align: center; 
             text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); 
             z-index: 2; 
-            
         }
         footer {
             background-color:rgb(101, 35, 35);
@@ -259,11 +258,28 @@
         <a href="#" id="logo">
             <img src="closuit.jpg.jpg" alt="Your Logo">
         </a>
-        <nav class="navbar">
-            <a href="#homepage">Home</a>
-            <a href="#gallery">Gallery</a> 
-            <a href="#personalized-outfits">Personalized outfits</a>
-            <a href="#contact">Contact</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#homepage">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#gallery">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#personalized-outfits">Personalized outfits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -301,17 +317,18 @@
                 Combining the timeless artistry of traditional tailoring with cutting-edge advancements in AI and technology, CloSuit caters to a dynamic demographic aged 15-35, characterized by tech-savvy individuals with a penchant for fashion and a fast-paced lifestyle.
             </p>
         </div>
-        <section id="personalized-outfits">
-            <div class="personalized-outfits-container">
-                <h2>Personalized Outfits</h2>
-                <img src="personalized.webp" alt="Personalized Outfits">
-            </div>
-            <p class="description-text">"Personalized outfits are a unique and expressive form of fashion that goes beyond off-the-rack clothing, allowing individuals to curate a style that reflects their personality, tastes, and preferences. These customized ensembles are carefully crafted to cater to the individual's specific desires, ensuring a one-of-a-kind wardrobe that stands out in a crowd."</p>
-        </section>
-    
+    </div>
+
+    <section id="personalized-outfits">
+        <div class="personalized-outfits-container">
+            <h2>Personalized Outfits</h2>
+            <img src="personalized.webp" alt="Personalized Outfits">
+        </div>
+        <p class="description-text">"Personalized outfits are a unique and expressive form of fashion that goes beyond off-the-rack clothing, allowing individuals to curate a style that reflects their personality, tastes, and preferences. These customized ensembles are carefully crafted to cater to the individual's specific desires, ensuring a one-of-a-kind wardrobe that stands out in a crowd."</p>
+    </section>
 
     <section id="contact" class="contact">
-        <div class="contact-container">
+        <div class="container">
             <h2>Contact Us</h2>
             <h1><p>Address: Jahijela Fincije 20</p></h1>
             <h1><p>Phone: +387 62 828 084</p></h1>
@@ -324,13 +341,20 @@
             </form>
         </div>
     </section>
-    <footer>
-        <p>&copy; 2024 CloSuit. All rights reserved.</p>
-        <nav>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Contact Us</a>
-        </nav>
+
+    <footer class="bg-dark text-white">
+        <div class="container">
+            <p>&copy; 2024 CloSuit. All rights reserved.</p>
+            <nav>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </nav>
+        </div>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
