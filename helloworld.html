@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CloSuit</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,6 +16,15 @@
             transition: .2s;
             outline: none;
             text-transform: capitalize;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         html {
@@ -54,6 +66,7 @@
             border-radius: 10px;
             padding: 1rem 3rem;
         }
+
         #homepage {
             display: flex; 
             flex-direction: row; 
@@ -74,6 +87,7 @@
         .product:hover .overlay-text {
             opacity: 1;
         }
+
         .overlay-text {
             position: absolute; 
             top: 50%;
@@ -86,6 +100,7 @@
             text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); 
             z-index: 2; 
         }
+
         footer {
             background-color:rgb(101, 35, 35);
             color: white; 
@@ -102,20 +117,19 @@
         footer a:hover {
             color: rgb(72, 21, 21); 
         }
+
         .gallery-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 120px 20px 20px;
         }
 
-        
         .gallery {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
         }
 
-        
         .gallery-item {
             width: calc(33.33% - 10px);
             margin-bottom: 20px;
@@ -130,13 +144,13 @@
             transform: scale(1.05);
         }
 
-        
         .gallery-item img {
             width: 100%;
             height: auto;
             display: block;
             border-radius: 8px 8px 0 0;
         }
+
         .description-text {
             text-transform: none; 
             font-size: 25px;
@@ -144,7 +158,8 @@
             color: black ; 
             margin-bottom: 15px;
             font-style:oblique;
-}
+        }
+
         .description-overlay {
             position: absolute;
             bottom: 0;
@@ -162,33 +177,38 @@
         .gallery-item:hover .description-overlay {
             opacity: 1;
         }
+
         #personalized-outfits {
             background-color: white;
-           padding: 50px 0; 
-          text-align: center; 
-}
+            padding: 50px 0; 
+            text-align: center; 
+        }
 
         .personalized-outfits-container {
-           max-width: 800px; 
-        margin: 0 auto; 
-        padding: 0 20px; 
-        box-sizing: border-box; 
-}
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+            box-sizing: border-box; 
+        }
+
         .personalized-outfits-container h2 {
-    font-size: 30px;
-    font-style: oblique;
-}
-.personalized-outfits-container img {
-    max-width: 90%; 
-    height: auto; 
-    margin-top: 20px;
-    border-radius: 50%;
-}
+            font-size: 30px;
+            font-style: oblique;
+        }
+
+        .personalized-outfits-container img {
+            max-width: 90%; 
+            height: auto; 
+            margin-top: 20px;
+            border-radius: 50%;
+        }
+
         .description-text {
             margin: 0;
             font-size: 16px;
             line-height: 1.4;
         }
+
         .contact {
             background-color:lightsalmon;
             padding: 80px 0;
@@ -238,122 +258,562 @@
 
         .contact-form button {
             display: inline-block;
-            background-color: black;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
+        }
+        .invalid-feedback {
+            color: red;
+        }
+        .is-invalid {
+            border-color: red;
+        }
+        .is-valid {
+            border-color: green;
+        }
+        #passwordStrength {
+            margin-top: 10px;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed; 
+            z-index: 1; 
+            padding-top: 100px; 
+            left: 0;
+            top: 0
+            ;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto;
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.9); 
         }
 
-        .contact-form button:hover {
-            background-color: black;
+       
+        .modal-content {
+        margin: auto;
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+        
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
         }
-    </style>
+
+        .modal-content, #caption { 
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)} 
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 700px){
+            .modal-content {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .theme-light {
+            --main-bg-color: #fff;
+            --main-text-color: #000;
+            --main-link-color: #007bff;
+        }
+
+        .theme-dark {
+            --main-bg-color: #343a40;
+            --main-text-color: #fff;
+            --main-link-color: #007bff;
+        }
+
+        .theme-light {
+            background-color: var(--main-bg-color);
+            color: var(--main-text-color);
+        }
+
+        .theme-dark {
+            background-color: var(--main-bg-color);
+            color: var(--main-text-color);
+        }
+
+        .theme-light a {
+            color: var(--main-link-color);
+        }
+
+        .theme-dark a {
+            color: var(--main-link-color);
+        }
+
+        .font-small {
+            font-size: 12px;
+        }
+
+        .font-medium {
+            font-size: 16px;
+        }
+
+        .font-large {
+            font-size: 20px;
+        }
+
+        .accordion {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #ccc;
+}
+
+.accordion-header {
+    background-color: #f2f2f2;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion-content {
+    padding: 10px;
+    display: none;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+    </style>    
 </head>
 <body>
-    <header class="header">
-        <a href="#" id="logo">
-            <img src="closuit.jpg.jpg" alt="Your Logo">
-        </a>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#homepage">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#gallery">Gallery</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#personalized-outfits">Personalized outfits</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#contact">Contact</a>
-                        </li>
-                    </ul>
+     <header class="header">
+            <a href="#" id="logo">
+                <img src="closuit.jpg.jpg" alt="Your Logo">
+            </a>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#homepage">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#gallery">Gallery</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#personalized-outfits">Personalized outfits</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-
-    <div id="homepage">
-        <div class="product">
-            <img src="fashion1.jpg" alt="Product 1">
-            <div class="overlay-text">Welcome to CloSuit – Your Ultimate Fashion Companion!</div>
-        </div>
-        <div class="product">
-            <img src="fashion2.jpg" alt="Product 2">
-            <div class="overlay-text">Welcome to CloSuit – Your Ultimate Fashion Companion!</div>
-        </div>
-    </div>
-
-    <div class="gallery-container" id="gallery">
-        <div class="gallery">
-            <div class="gallery-item">
-                <img src="aa.png" alt="Gallery Image 1">
-                <div class="description-overlay">
-                    <p class="description-text">At CloSuit, we believe that getting dressed should be a breeze, not a burden.
-                    Introducing our user-friendly and flexible application designed to revolutionize your daily wardrobe decisions.</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="ab.jpg" alt="Gallery Image 2">
-                <div class="description-overlay">
-                    <p class="description-text">Unleash your creativity by mixing and 
-                    matching your wardrobe pieces to create personalized outfits that truly reflect your unique taste.</p>
-                </div>
-            </div>
-            <p class="description-text">
-                The CloSuit brand is positioned at the forefront of fashion technology, navigating the intersection between tradition and innovation in the clothing industry.
-            </p>
-            <p class="description-text">
-                Combining the timeless artistry of traditional tailoring with cutting-edge advancements in AI and technology, CloSuit caters to a dynamic demographic aged 15-35, characterized by tech-savvy individuals with a penchant for fashion and a fast-paced lifestyle.
-            </p>
-        </div>
-    </div>
-
-    <section id="personalized-outfits">
-        <div class="personalized-outfits-container">
-            <h2>Personalized Outfits</h2>
-            <img src="personalized.webp" alt="Personalized Outfits">
-        </div>
-        <p class="description-text">"Personalized outfits are a unique and expressive form of fashion that goes beyond off-the-rack clothing, allowing individuals to curate a style that reflects their personality, tastes, and preferences. These customized ensembles are carefully crafted to cater to the individual's specific desires, ensuring a one-of-a-kind wardrobe that stands out in a crowd."</p>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <h1><p>Address: Jahijela Fincije 20</p></h1>
-            <h1><p>Phone: +387 62 828 084</p></h1>
-            <h1><p>Email: closuit@gmail.com </p></h1>
-            <form class="contact-form" onsubmit="sendMessage(); return false;">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="email" name="email" placeholder="Your Email" required>
-                <textarea name="message" placeholder="Your Message" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <footer class="bg-dark text-white">
-        <div class="container">
-            <p>&copy; 2024 CloSuit. All rights reserved.</p>
-            <nav>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Contact Us</a>
             </nav>
+        </header>
+        <div id="homepage">
+            <div class="product">
+                <img src="fashion1.jpg" alt="Product 1">
+                <div class="overlay-text">Welcome to CloSuit – Your Ultimate Fashion Companion!</div>
+            </div>
+            <div class="product">
+                <img src="fashion2.jpg" alt="Product 2">
+                <div class="overlay-text">Welcome to CloSuit – Your Ultimate Fashion Companion!</div>
+            </div>
         </div>
-    </footer>
-
+    
+        <div class="gallery-container" id="gallery">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="fashion 7.webp" alt="Gallery Image 1" class="thumbnail">
+                </div>
+                <div class="gallery-item">
+                    <img src="fashion 6.webp" alt="Gallery Image 2" class="thumbnail">
+                </div>
+                <div class="gallery-item">
+                    <img src="fashion5.webp" alt="Gallery Image 3" class="thumbnail">
+                </div>
+            </div>
+        </div>
+    
+        <section id="personalized-outfits">
+            <div class="personalized-outfits-container">
+                <h2>Personalized Outfits</h2>
+                <img src="personalized.webp" alt="Personalized Outfits">
+            </div>
+            <p class="description-text">"Personalized outfits are a unique and expressive form of fashion that goes beyond off-the-rack clothing, allowing individuals to curate a style that reflects their personality, tastes, and preferences. These customized ensembles are carefully crafted to cater to the individual's specific desires, ensuring a one-of-a-kind wardrobe that stands out in a crowd."</p>
+        </section>
+                <section id="contact" class="contact">
+                    <div class="container">
+                        <h2>Contact Us</h2>
+                        <h1><p>Address: Jahijela Fincije 20</p></h1>
+                        <h1><p>Phone: +387 62 828 084</p></h1>
+                        <h1><p>Email: closuit@gmail.com </p></h1>
+                        <form id="contactForm" class="contact-form">
+                            <input type="text" name="name" placeholder="Your Name" class="form-control" required>
+                            <input type="email" name="email" placeholder="Your Email" class="form-control" required>
+                            <input type="password" name="password" id="password" placeholder="Your Password" class="form-control" required>
+                            <input type="text" id="datepicker" name="date" placeholder="Select Date" class="form-control" required>
+                            <div id="passwordStrength"></div>
+                            <textarea name="message" placeholder="Your Message" class="form-control" required></textarea>
+                            <button type="submit">Send Message</button>
+                        </form>
+                    </div>
+                </section>
+                
+            </div>
+        </section>
+    
+        <footer class="bg-dark text-white">
+            <div class="container">
+                <p>&copy; 2024 CloSuit. All rights reserved.</p>
+                <nav>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </nav>
+            </div>
+        </footer>
+    
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="img01">
+        </div>
+        <div class="toggle-buttons" style="text-align: center; margin: 20px;">
+            <button onclick="toggleFAQ()">Toggle FAQs</button>
+        </div>
+    
+        <section class="faq" style="display: none;">
+            <h2>Frequently Asked Questions</h2>
+            <p>Here are some frequently asked questions and their answers.</p>
+            <ul>
+                <li><strong>What is the difference between fashion and style?</strong>Fashion refers to the latest trends in clothing, accessories, and beauty.
+                Style, on the other hand, is a personal expression of fashion.</li>
+                <li><strong>How can I improve my fashion sense?</strong>To improve your fashion sense, you can start by following fashion blogs, magazines, and social media influencers.
+                This will give you an idea of the latest fashion trends and how to incorporate them into your personal style.</li>
+                <li><strong>What is the role of fashion in society?</strong>Fashion plays an important role in society, influencing cultural norms and reflecting societal values.
+                It is a form of self-expression and identity, and can be used to make political or social statements.</li>
+            </ul>
+        </section>
+        <div class="theme-controls">
+            <button onclick="setLightTheme()">Light Theme</button>
+            <button onclick="setDarkTheme()">Dark Theme</button>
+            <button onclick="setSmallFont()">Small Font</button>
+            <button onclick="setMediumFont()">Medium Font</button>
+            <button onclick="setLargeFont()">Large Font</button>
+        </div>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>FAQ 1</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>How do I dress for a job interview?</strong>
+                        Dressing for a job interview depends on the type of job and company culture.
+                        In general, it’s best to dress in professional attire, such as a suit or dress pants with a blouse or dress shirt.
+                        It’s important to dress conservatively and avoid anything too flashy or revealing.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>FAQ 2</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>How do I choose the right colors for my skin tone?</strong>
+                        Choosing the right colors for your skin tone can be tricky.
+                        Generally, people with warm undertones (yellow, peach, or gold) look best in earthy colors, while those with cool undertones (pink or blue) look best in jewel tones.
+                        It’s also important to consider your hair color and eye color when choosing colors that complement your skin tone.</p>
+                </div>
+            </div>
+        </div>       
+        <title>Toastr Notifications Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <button id="testSuccess">Test Success Notification</button>
+    <button id="testError">Test Error Notification</button>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spapp/3.0.6/spapp.min.js"></script>
+    <script>
+        function toggleFAQ() {
+            var faqs = document.querySelector(".faq");
+            faqs.style.display = (faqs.style.display === "none" || faqs.style.display === "") ? "block" : "none";
+        }
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("img01");
+
+        var thumbnails = document.getElementsByClassName("thumbnail");
+        for (var i = 0; i < thumbnails.length; i++) {
+            thumbnails[i].onclick = function() {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                modalImg.style.maxWidth = "100%";
+                modalImg.style.height = "auto";
+            }
+        }
+
+        modal.onclick = function(event) {
+            if (event.target === modal || event.target === document.getElementsByClassName("close")[0]) {
+                modal.style.display = "none";
+            }
+        }
+        function setLightTheme() {
+            document.body.classList.add('theme-light');
+            document.body.classList.remove('theme-dark');
+        }
+
+        function setDarkTheme() {
+            document.body.classList.add('theme-dark');
+            document.body.classList.remove('theme-light');
+        }
+
+        function setSmallFont() {
+            document.body.classList.add('font-small');
+            document.body.classList.remove('font-medium');
+            document.body.classList.remove('font-large');
+        }
+
+        function setMediumFont() {
+            document.body.classList.add('font-medium');
+            document.body.classList.remove('font-small');
+            document.body.classList.remove('font-large');
+        }
+
+        function setLargeFont() {
+            document.body.classList.add('font-large');
+            document.body.classList.remove('font-small');
+            document.body.classList.remove('font-medium');
+        }
+
+        function toggleAccordion(accordionHeader) {
+    var accordionItem = accordionHeader.parentElement;
+    var accordionContent = accordionItem.querySelector('.accordion-content');
+    var accordionIcon = accordionHeader.querySelector('i');
+    
+    if (accordionContent.style.display === 'none') {
+        accordionContent.style.display = 'block';
+        accordionIcon.classList.add('rotate');
+    } else {
+        accordionContent.style.display = 'none';
+        accordionIcon.classList.remove('rotate');
+    }
+}
+$(document).ready(function() {
+    $('#contactForm').validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 8
+            },
+            date: {
+                required: true,
+                date: true
+            },
+            message: {
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                required: "Please enter your name",
+                minlength: "Name must be at least 2 characters long"
+            },
+            email: {
+                required: "Please enter your email",
+                email: "Please enter a valid email address"
+            },
+            password: {
+                required: "Please enter your password",
+                minlength: "Password must be at least 8 characters long"
+            },
+            date: {
+                required: "Please select a date",
+                date: "Please enter a valid date"
+            },
+            message: {
+                required: "Please enter your message"
+            }
+        },
+        errorElement: 'div',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid').addClass('is-valid');
+        }
+    });
+
+    $('#datepicker').datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-100:+0"
+    });
+
+    $('#password').on('input', function() {
+        var password = $(this).val();
+        var strength = checkPasswordStrength(password);
+        $('#passwordStrength').html('Password Strength: ' + strength);
+    });
+
+    function checkPasswordStrength(password) {
+        var strength = 0;
+        if (password.match(/[a-z]+/)) {
+            strength += 1;
+        }
+        if (password.match(/[A-Z]+/)) {
+            strength += 1;
+        }
+        if (password.match(/[0-9]+/)) {
+            strength += 1;
+        }
+        if (password.match(/[$@#&!]+/)) {
+            strength += 1;
+        }
+        if (password.length >= 8) {
+            strength += 1;
+        }
+        return strength;
+    }
+});
+$(document).ready(function() {
+            function showSuccessMessage(message) {
+                toastr.success(message, 'Success');
+            }
+
+            function showErrorMessage(message) {
+                toastr.error(message, 'Error');
+            }
+
+            $('#testSuccess').click(function() {
+                showSuccessMessage('This is a success message!');
+            });
+
+            $('#testError').click(function() {
+                showErrorMessage('This is an error message.');
+            });
+
+            //AJAX request
+            $.ajax({
+                url: 'your-endpoint-url',
+                method: 'GET',
+                success: function(response) {
+                    showSuccessMessage('Data loaded successfully!');
+                   
+                },
+                error: function(xhr, status, error) {
+                    showErrorMessage('Failed to load data. Please try again.');
+                   
+                }
+            });
+        });
+        var app = $.spapp({defaultView: "#homepage"});
+
+            app.route({
+                view: 'homepage',
+                onCreate: function() {
+                    $('#homepage').addClass('active');
+                },
+                onEnter: function() {
+                    $('.content').removeClass('active');
+                    $('#homepage').addClass('active');
+                }
+            });
+
+            app.route({
+                view: 'gallery',
+                onCreate: function() {
+                    $('#gallery').addClass('active');
+                },
+                onEnter: function() {
+                    $('.content').removeClass('active');
+                    $('#gallery').addClass('active');
+                }
+            });
+
+            app.route({
+                view: 'personalized-outfits',
+                onCreate: function() {
+                    $('#personalized-outfits').addClass('active');
+                },
+                onEnter: function() {
+                    $('.content').removeClass('active');
+                    $('#personalized-outfits').addClass('active');
+                }
+            });
+
+            app.route({
+                view: 'contact',
+                onCreate: function() {
+                    $('#contact').addClass('active');
+                },
+                onEnter: function() {
+                    $('.content').removeClass('active');
+                    $('#contact').addClass('active');
+                }
+            });
+            app.run();
+    </script>
 </body>
 </html>
+
+    
